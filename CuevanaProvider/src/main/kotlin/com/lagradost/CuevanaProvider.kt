@@ -8,7 +8,7 @@ import com.lagradost.cloudstream3.utils.ExtractorLink
 import com.lagradost.cloudstream3.utils.loadExtractor
 
 class CuevanaProvider : MainAPI() {
-    override var mainUrl = "https://cuevana.biz/inicio"
+    override var mainUrl = "https://gratis.cuevana3cc.me/inicio/"
     override var name = "Cuevana"
     override var lang = "es"
     override val hasMainPage = true
