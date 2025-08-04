@@ -228,7 +228,7 @@
         ],
         "version": 1,
         "internalName": "CinecalidadProvider",
-        "url": "https://codeberg.org/cloudstream/cloudstream-extensions-multilingual/raw/branch/builds/CinecalidadProvider.cs3",
+        "url": "https://github.com/Powernetgroup/cloudstream-extensions-multilingual/blob/master/builds/CinecalidadProvider.cs3",
         "name": "CinecalidadProvider"
     },
     {
@@ -248,7 +248,7 @@
         ],
         "version": 1,
         "internalName": "CuevanaProvider",
-        "url": "https://codeberg.org/cloudstream/cloudstream-extensions-multilingual/raw/branch/builds/CuevanaProvider.cs3",
+        "url": "https://github.com/Powernetgroup/cloudstream-extensions-multilingual/blob/master/builds/CuevanaProvider.cs3",
         "name": "CuevanaProvider"
     },
     {
