@@ -234,7 +234,7 @@
     {
         "iconUrl": "https://www.google.com/s2/favicons?domain=cuevana3.me&sz=%size%",
         "apiVersion": 1,
-        "repositoryUrl": "https://codeberg.org/cloudstream/cloudstream-extensions-multilingual",
+        "repositoryUrl": "https://github.com/Powernetgroup/cloudstream-extensions-multilingual",
         "fileSize": 18839,
         "status": 1,
         "language": "es",
@@ -254,7 +254,7 @@
     {
         "iconUrl": "https://www.google.com/s2/favicons?domain=dokumentalne.net&sz=%size%",
         "apiVersion": 1,
-        "repositoryUrl": "https://codeberg.org/cloudstream/cloudstream-extensions-multilingual",
+        "repositoryUrl": "https://github.com/Powernetgroup/cloudstream-extensions-multilingual",
         "fileSize": 9252,
         "status": 1,
         "language": "pl",
