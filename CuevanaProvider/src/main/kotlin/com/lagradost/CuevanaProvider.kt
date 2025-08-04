@@ -22,13 +22,13 @@ class CuevanaProvider : MainAPI() {
     override suspend fun getMainPage(page: Int, request : MainPageRequest): HomePageResponse {
         val items = ArrayList<HomePageList>()
         val urls = listOf(
-            Pair(mainUrl, "Temporadas"),
-            Pair("$mainUrl/estrenos/", "Estrenos"),
+            Pair(mainUrl, "Inicio"),
+            Pair("$mainUrl/Peliculas/", "Peliculas"),
         )
         items.add(
             HomePageList(
                 "Series",
-                app.get("$mainUrl/serie", timeout = 120).document.select("section.home-series li")
+                app.get("$mainUrl/series", timeout = 120).document.select("section.home-series li")
                     .map {
                         val title = it.selectFirst("h2.Title")!!.text()
                         val poster = it.selectFirst("img.lazy")!!.attr("data-src")
@@ -37,7 +37,7 @@ class CuevanaProvider : MainAPI() {
                             title,
                             url,
                             this.name,
-                            TvType.Anime,
+                            TvType.Episodios,
                             poster,
                             null,
                             null,
@@ -54,7 +54,7 @@ class CuevanaProvider : MainAPI() {
                         title,
                         link,
                         this.name,
-                        if (link.contains("/pelicula/")) TvType.Movie else TvType.TvSeries,
+                        if (link.contains("/pelicula/")) TvType.Peliculas else TvType.Series,
                         it.selectFirst("img.lazy")!!.attr("data-src"),
                         null,
                         null,
@@ -82,11 +82,11 @@ class CuevanaProvider : MainAPI() {
             val isSerie = href.contains("/serie/")
 
             if (isSerie) {
-                TvSeriesSearchResponse(
+                SeriesSearchResponse(
                     title,
                     href,
                     this.name,
-                    TvType.TvSeries,
+                    TvType.Series,
                     image,
                     null,
                     null
@@ -96,7 +96,7 @@ class CuevanaProvider : MainAPI() {
                     title,
                     href,
                     this.name,
-                    TvType.Movie,
+                    TvType.Peliculas,
                     image,
                     null
                 )
@@ -128,13 +128,13 @@ class CuevanaProvider : MainAPI() {
             Episode(
                 href,
                 null,
-                season,
-                episode,
+                Temporada,
+                eposidio,
                 fixUrl(epThumb)
             )
         }
         val tags = soup.select("ul.InfoList li.AAIco-adjust:contains(Genero) a").map { it.text() }
-        val tvType = if (episodes.isEmpty()) TvType.Movie else TvType.Series
+        val tvType = if (episodes.isEmpty()) TvType.Peliculas else TvType.Series
         val recelement =
             if (tvType == TvType.Series) "main section div.series_listado.series div.xxx"
             else "main section ul.MovieList li"
@@ -160,7 +160,7 @@ class CuevanaProvider : MainAPI() {
                     url,
                     this.name,
                     tvType,
-                    episodes,
+                    episodios,
                     poster,
                     year,
                     description,
@@ -204,7 +204,7 @@ class CuevanaProvider : MainAPI() {
                 femregex.findAll(iframe).map { femreg ->
                     femreg.value
                 }.toList().apmap { fem ->
-                    val key = fem.replace("https://api.cuevana3.me/fembed/?h=", "")
+                    val key = fem.replace("https://api.gratis.cuevana3cc.me/fembed/?h=", "")
                     val url = app.post(
                         "https://api.gratis.cuevana3cc.me/fembed/api.php",
                         allowRedirects = false,
@@ -258,12 +258,12 @@ class CuevanaProvider : MainAPI() {
                     ).okhttpResponse.headers.values("location").apmap { loc ->
                         if (loc.contains("goto_ddh.php")) {
                             val gotoregex =
-                                Regex("(\\/\\/api.cuevana3.me\\/ir\\/goto_ddh.php\\?h=[a-zA-Z0-9]{0,8}[a-zA-Z0-9_-]+)")
+                                Regex("(\\/\\/api.gratis.cuevana3cc.me\\/ir\\/goto_ddh.php\\?h=[a-zA-Z0-9]{0,8}[a-zA-Z0-9_-]+)")
                             gotoregex.findAll(loc).map { goreg ->
                                 goreg.value.replace("//api.gratis.cuevana3cc.me/ir/goto_ddh.php?h=", "")
                             }.toList().apmap { gotolink ->
                                 app.post(
-                                    "https://api.cuevana3.me/ir/redirect_ddh.php",
+                                    "https://api.gratis.cuevana3cc.me/ir/redirect_ddh.php",
                                     allowRedirects = false,
                                     headers = mapOf(
                                         "Host" to "api.gratis.cuevana3cc.me",
@@ -287,12 +287,12 @@ class CuevanaProvider : MainAPI() {
                         }
                         if (loc.contains("index.php?h=")) {
                             val indexRegex =
-                                Regex("(\\/\\/api.cuevana3.me\\/sc\\/index.php\\?h=[a-zA-Z0-9]{0,8}[a-zA-Z0-9_-]+)")
+                                Regex("(\\/\\/api.gratis.cuevana3cc.me\\/sc\\/index.php\\?h=[a-zA-Z0-9]{0,8}[a-zA-Z0-9_-]+)")
                             indexRegex.findAll(loc).map { indreg ->
                                 indreg.value.replace("//api.gratis.cuevana3cc.me/sc/index.php?h=", "")
                             }.toList().apmap { inlink ->
                                 app.post(
-                                    "https://api.cuevana3.me/sc/r.php", allowRedirects = false,
+                                    "https://api.gratis.cuevana3cc.me/sc/r.php", allowRedirects = false,
                                     headers = mapOf(
                                         "Host" to "api.gratis.cuevana3cc.me",
                                         "User-Agent" to USER_AGENT,
