@@ -8,7 +8,7 @@ import com.lagradost.cloudstream3.utils.ExtractorLink
 import com.lagradost.cloudstream3.utils.loadExtractor
 
 class CuevanaProvider : MainAPI() {
-    override var mainUrl = "https://35.cuevana4.me/"
+    override var mainUrl = "https://35.cuevana4.me"
     override var name = "Cuevana"
     override var lang = "es"
     override val hasMainPage = true
@@ -200,7 +200,7 @@ class CuevanaProvider : MainAPI() {
             val iframe = fixUrl(it.attr("data-src"))
             if (iframe.contains("api.35.cuevana4.me/fembed/")) {
                 val femregex =
-                    Regex("(https.\\/\\/api\\.35.cuevana4.me/\\.me\\/fembed\\/\\?h=[a-zA-Z0-9]{0,8}[a-zA-Z0-9_-]+)")
+                    Regex("(https.\\/\\/api\\.35.cuevana4/\\.me\\/fembed\\/\\?h=[a-zA-Z0-9]{0,8}[a-zA-Z0-9_-]+)")
                 femregex.findAll(iframe).map { femreg ->
                     femreg.value
                 }.toList().apmap { fem ->
